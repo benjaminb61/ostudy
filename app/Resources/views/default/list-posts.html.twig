@@ -1,0 +1,270 @@
+ {% for post in listPosts %}
+	<ul id="post_{{ post.id }}" class="media-list post {% if post.statut == 2 %}post-active{% endif %} {% if app.request.get('post_id') == post.id %}highlight{% endif %}">
+		<li class="media">
+			<div class="media-left">
+				
+				{% if (post.author == app.user) or ((check_admin is defined) and (check_admin)) %}
+					<div class="btn-group action" role="group">
+						<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-option-vertical" style="font-size:16px;"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="#" data-toggle="modal" data-target="#modal-edit-post-{{ post.id }}">Modifier la publication</a></li>
+							
+							{% if (check_admin is defined) and (check_admin) %}
+								{% set text_post_top = 'Placer en première position' %}
+								{% if post.statut == 2 %} {% set text_post_top = 'Retirer de la première position' %} {% endif %}
+								<li><a href="{{ path('post-top',{'post_id' : post.id, 'action' : 'add', 'groupe_id' : groupe_id }) }}" title="{{ text_post_top }}">{{ text_post_top }}</a></li>
+							{% endif %}
+							
+							<li class="divider"></li>
+							<li><a href="{{ path('post-delete',{'post_id' : post.id, 'groupe_id' : groupe_id }) }}" title="Supprimer le post"><span class="glyphicon glyphicon-remove"></span> Supprimer la publication</a></</li>
+						</ul>
+					</div>
+					
+					<!-- modal -->
+					<div class="modal fade text-left" id="modal-edit-post-{{ post.id }}" tabindex="-1" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">Modifier une publication</h4>
+								</div>
+								{{ render(url('post-edit', {'post_id' : post.id, 'groupe_id' : groupe_id})) }}
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				{% endif %}
+				{% if post.statut == 2 %} 
+					<p class="label-top"><span class="label label-warning">Top !</span></p>
+				{% endif %}
+				<div class="vote">
+					
+					{% if (app.user) and (post.checkVoteUser(app.user.id)) %}
+						<p id="vote_{{ post.id }}">
+							<a id="vote_down_{{ post.id }}" href="" title="Annuler votre vote"><span class="glyphicon glyphicon-ok" style="color:green;"></span></a>
+						</p>
+					{% elseif (app.user) %}
+						<p id="vote_{{ post.id }}"><a id="vote_up_{{ post.id }}" href="" title="Cette publication est claire et pertinente">
+							<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+						</a></p>
+					{% else %}
+						<p><a href="" data-toggle="modal" data-target="#modal-login" title="Cette publication est claire et pertinente">
+							<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+						</a></p>
+					{% endif %}
+					
+					<p><span class="vote-count" id="vote_count_{{ post.id }}">{{ post.vote }}</span></p>
+					
+					{% if (app.user) and (post.checkFavoriteUser(app.user.id)) %}
+						<p class="favorite" id="favorite_{{ post.id }}">
+							<a class="active" id="favorite_remove_{{ post.id }}" href="" title="Retirer de vos favoris"><span class="glyphicon glyphicon-star"></span></a>
+						</p>
+					{% elseif (app.user) %}
+						<p class="favorite" id="favorite_{{ post.id }}"><a id="favorite_add_{{ post.id }}" href="" title="Ajouter cette publication à vos favoris">
+							<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</a></p>
+					{% else %}
+						<p><a href="" data-toggle="modal" data-target="#modal-login" title="Ajouter cette publication à vos favoris">
+							<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</a></p>
+					{% endif %}
+					
+					<p class="favorite-count" id="favorite_count_{{ post.id }}">{{ post.favorite }}</p>
+					
+					<script>	
+						$("#vote_down_{{ post.id }}").click(function(){ 
+							$.ajax({
+								type: "GET",
+								url: "{{ path('post-vote',{'post_id' : post.id, 'action' : 'remove' }) }}",
+								data: "",
+								cache: false,
+								success: function(data){
+								   $('#vote_count_{{ post.id }}').html({{ post.vote - 1 }});
+								   $('#vote_{{ post.id }}').html('<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>');	   
+								},
+								error : function(data){
+									var err = eval("(" + data.responseText + ")");
+									alert(err.message);
+								}
+							});    
+							return false;
+						});			
+						$("#vote_up_{{ post.id }}").click(function(){ 
+							$.ajax({
+								type: "GET",
+								url: "{{ path('post-vote',{'post_id' : post.id, 'action' : 'add' }) }}",
+								data: "",
+								cache: false,
+								success: function(data){
+								   $('#vote_count_{{ post.id }}').html({{ post.vote + 1 }});
+								   $('#vote_{{ post.id }}').html('<span class="glyphicon glyphicon-ok" style="color:green;"></span>');	   
+								},
+								error : function(data){
+									var err = eval("(" + data.responseText + ")");
+									alert(err.message);
+								}
+							});    
+							return false;
+						});
+						$("#favorite_add_{{ post.id }}").click(function(){ 
+							$.ajax({
+								type: "GET",
+								url: "{{ path('post-favorite',{'post_id' : post.id, 'action' : 'add' }) }}",
+								data: "",
+								cache: false,
+								success: function(data){
+								   $('#favorite_count_{{ post.id }}').html({{ post.favorite + 1 }});
+								   $('#favorite_{{ post.id }}').html('<span class="glyphicon glyphicon-star" style="color:#ffec02;"></span>');	   
+								}
+							});    
+							return false;
+						});
+						$("#favorite_remove_{{ post.id }}").click(function(){ 
+							$.ajax({
+								type: "GET",
+								url: "{{ path('post-favorite',{'post_id' : post.id, 'action' : 'remove' }) }}",
+								data: "",
+								cache: false,
+								success: function(data){
+								   $('#favorite_count_{{ post.id }}').html({{ post.favorite - 1 }});
+								   $('#favorite_{{ post.id }}').html('<span class="glyphicon glyphicon-star"></span>');	   
+								}
+							});    
+							return false;
+						});
+						
+					</script>
+				</div>
+			</div>
+			<div class="media-body">
+				{% if post.title %}
+					<h4 class="media-heading">{{ post.title }}</h4>
+				{% endif %}
+				<div class="content">
+					{% if groupe is defined %}
+						{{ post.content|hashtag(path('groupe', {'groupe_slug' : groupe.slug}))|raw }}		
+					{% else %}
+						{{ post.content|hashtag(path('homepage'))|raw }}	
+					{% endif %}
+				</div>
+				{% if post.document %}
+					<div class="document"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<a href="#" title="Aperçu du document" data-toggle="modal" data-target="#modal-view-doc-{{ post.document.id }}">{{ post.document.name }}</a></div>
+					
+					<div class="modal fade" id="modal-view-doc-{{ post.document.id }}" tabindex="-1" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">{{ post.document.name }}&nbsp;&nbsp;
+										<a href="{{ asset('uploads/documents/' ~ post.document.path) }}" class="btn btn-sm btn-default" title="Télécharger ce document"><span class="glyphicon glyphicon-download-alt"></span> Télécharger</a>
+									</h4>
+								</div>
+								<iframe src="http://docs.google.com/gview?url={{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('uploads/documents/' ~ post.document.path) }}&embedded=true" style="width:100%; height:600px;" frameborder="0"></iframe>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				{% endif %}
+				<p class="date">
+					<small>Posté par <strong>{{ post.author }}</strong>, le {{ post.date|date('d/m/Y') }} à {{ post.date|date('H:i') }}</small>
+					{% if post.date != post.lastUpdate %}
+						<small><em>Mis à jour le {{ post.lastUpdate|date('d/m/Y') }} à {{ post.lastUpdate|date('H:i') }}</small></em>
+					{% endif %}
+				</p>
+				
+				<div style="margin:10px 0 20px 0;">
+					{% for tag in post.getListTags %}
+						{% if groupe is defined %}
+							<span class="label label-info tag"><a href="{{ path('groupe', {'groupe_slug' : groupe.slug, 'tag_name': tag}) }}" title="{{ tag }}">{{ tag }}</a></span>&nbsp;
+						{% else %}
+							<span class="label label-info tag"><a href="{{ path('homepage', {'tag_name': tag}) }}" title="{{ tag }}">{{ tag }}</a></span>&nbsp;
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% for comment in post.comments %}
+					<div class="comment {% if app.request.get('comment_id') == post.id %}highlight{% endif %}" id="comment_{{ comment.id }}">
+						<ul class="media-list">
+							<li class="media">
+								<div class="media-left">
+									<a href="#">
+										<img style="max-width:32px;" class="media-object" src="http://www.sites.encode.com.br/src/Frontend/Files/backend_users/avatars/64x64/no-avatar.gif" alt="...">
+									</a>
+								</div>
+								<div class="media-body">
+									{{ comment.content|raw }}
+									<p class="media-heading date"><small> Commentaire de <strong>{{ comment.author }}</strong> le {{ comment.date|date('d/m/Y') }}, {{ comment.date|date('H:i') }}</small></p>
+									{% if comment.author == app.user %}
+									<p class="media-heading small"><a id="{{ comment.id }}" class="sup_comment_{{ comment.id }}" href="" onclick="deleteComment($(this));return false;" title="Supprimer mon commentaire">Supprimer</a></p>
+									{% endif %}
+								</div>
+							</li>
+						</ul>
+					</div>
+				{% endfor %}
+				<p id="end_comment_{{ post.id }}"></p>
+				
+				{% if app.user %}
+					{{ render(url('comment-add', {'post_id': post.id, 'groupe_id' : groupe_id})) }}
+					
+					<script>
+						
+						function deleteComment(obj) {
+							var comment_id = obj.attr("id");
+							
+							var path = "{{ path('comment-delete',{'comment_id' : 'commentid'}) }}"; 
+							//alert("sup_comment_" +comment_id);
+
+							$(".sup_comment_" +comment_id).html('Suppression en cours...');
+							$.ajax({
+								type: "GET",
+								url: path.replace("commentid", comment_id),
+								data: "",
+								cache: false,
+								success: function(data){ 	
+									//alert('success');
+									$("#comment_" +comment_id).remove();
+								},
+								error : function(data){
+									alert(data.responseJSON);
+								}
+							});    
+							return false;
+							
+						}
+						$("#add_comment_{{ post.id }}_Envoyer").click(function(){ 
+							
+							var values = $("#add_comment_{{ post.id }}").serialize();
+							$("#add_comment_{{ post.id }}_Envoyer").html('Envoi en cours...');
+							
+							$.ajax({
+								type: "POST",
+								url: "{{ path('comment-add',{'post_id' : post.id, 'groupe_id' : groupe_id}) }}",
+								data: values,
+								cache: false,
+								success: function(data){ 	
+									//alert(data);
+									$("#add_comment_{{ post.id }}_content").tooltip("destroy");
+									$("#end_comment_{{ post.id }}").before("<div class=\"comment highlight\" id=\"comment_"+ data['comment_id'] +"\"><ul class=\"media-list\"><li class=\"media\"><div class=\"media-left\"><a href=\"#\"><img style=\"max-width:32px;\" class=\"media-object\" src=\"http://www.sites.encode.com.br/src/Frontend/Files/backend_users/avatars/64x64/no-avatar.gif\" alt=\"...\"></a></div><div class=\"media-body\">" + data['content'] + "<p class=\"media-heading date\"><small> Commentaire de <strong>" + data['author'] + "</strong> le " + data['date'] + ", " + data['heure'] + "</small></p><p class=\"media-heading small\"><a id=\"" + data['comment_id'] + "\" class=\"sup_comment_" + data['comment_id'] + "\" href=\"\" onclick=\"deleteComment($(this));return false;\" title=\"Supprimer mon commentaire\">Supprimer</a></p></div></li></ul></div>");
+									$("#add_comment_{{ post.id }}_Envoyer").html('Envoyer');
+									$("#add_comment_{{ post.id }}_content").val('');
+								},
+								error : function(data){
+									alert(data.responseText);
+									var err = eval("(" + data.responseText + ")");
+									$("#add_comment_{{ post.id }}_content").tooltip({'placement' : 'left', 'title': err.message}).tooltip('show');
+									$("#add_comment_{{ post.id }}_Envoyer").html('Envoyer');
+								}
+							});    
+							return false;
+						});
+					</script>
+				{% else %}
+					<fieldset disabled style="margin-bottom:10px;">
+						<input data-toggle="modal" data-target="#modal-login" class="form-control" type="text" placeholder="Ajoutez un commentaire...">
+						<button data-toggle="modal" data-target="#modal-login" style="margin:15px 0 5px 0;" type="submit" class="btn btn-default btn-xs">Envoyer</button>
+					</fieldset>
+				{% endif %}
+			</div>
+		</li>
+	</ul>
+  {% endfor %}

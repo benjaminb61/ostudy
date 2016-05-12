@@ -1,0 +1,46 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set title = 'Connexion' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+<p class="help-block">Vous n'avez pas encore de compte ? <a href="{{ path('fos_user_registration_register') }}" title="Inscription">Inscrivez-vous</a> en 30 secondes.</p>
+
+<div class="well modal-body">
+	<form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal">
+
+		<div class="form-group">  
+			<label class="col-lg-2 control-label" for="username">{{ 'profile.show.email'|trans }}</label>
+			<div class="col-lg-10">
+				<input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}"/>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+			</div>
+		</div>
+		
+		<div class="form-group">  
+			<label class="col-lg-2 control-label" for="password">{{ 'security.login.password'|trans }}</label>
+			<div class="col-lg-10">
+				<input class="form-control" type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}"/>
+				<div class="checkbox">
+				  <label>
+					<input type="checkbox" id="remember_me" name="_remember_me" value="on" /> {{ 'security.login.remember_me'|trans }}
+				  </label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+		  <div class="col-lg-10 col-lg-offset-2">
+			<!-- <button type="reset" class="btn btn-default">Cancel</button> -->
+			<input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+		  </div>
+		</div>
+
+	</form>
+</div>
+{% endblock fos_user_content %}
+ 

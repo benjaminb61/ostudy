@@ -1,0 +1,6 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% set title = 'Inscription' %}
+{% block fos_user_content %}
+<p class="help-block">Inscrivez-vous en 30 secondes seulement. Vous disposez déjà d'un compte ? <a href="{{ path('fos_user_security_login') }}" title="Connexion">connectez-vous</a> maintenant.</p>
+{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+{% endblock fos_user_content %}

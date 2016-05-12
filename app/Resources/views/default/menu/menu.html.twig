@@ -1,0 +1,51 @@
+    
+	<!-- <div class="sidebar-nav">
+        <div class="navbar navbar-default" role="navigation">
+                <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="">{{ menu_title }} <button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-option-vertical"></span></button></a></li>
+						{% for groupe in listGroupes %}
+							<li>
+							  <a href="{{ path('groupe', {'groupe_slug': groupe.slug}) }}">
+								{{ groupe.name }} <span class="badge">8</span>
+							  </a>
+							</li>
+						{% endfor %}
+                  </ul>
+				</div>
+        </div>
+    </div> -->
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading clearfix">
+			<h3 class="panel-title pull-left" style="padding-top:6.5px;">{{ menu_title }}</h3>
+			<div class="btn-group pull-right" role="group">
+				<button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="glyphicon glyphicon-option-vertical" style="font-size:16px;"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="#" data-toggle="modal" data-target="#modal-add-groupe"><span class="glyphicon glyphicon-plus"></span> Créer un groupe</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#modal-join-groupe"><span class="glyphicon glyphicon-share-alt"></span> Rejoindre un groupe</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="panel-body" style="padding:0px;">
+            <ul class="list-group" style="margin:0px;">
+				<li class="list-group-item"><span class="glyphicon glyphicon-star" style="color:#ffec02;"></span> <a href="{{ path('favorites') }}" title="Mes publications favorites">Mes publications favorites</a></li>
+				{% for groupe in listGroupes %}
+					<li class="list-group-item">
+						<a href="{{ path('groupe', {'groupe_slug': groupe.slug}) }}" title="{{ groupe.name }}">
+							{{ groupe.name }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	
+	<!-- <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-add-groupe">
+		<span class="glyphicon glyphicon-plus"></span> Créer un groupe
+	</button>
+	<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-add-groupe">
+		<span class="glyphicon glyphicon-share-alt"></span> Rejoindre un groupe
+	</button> -->

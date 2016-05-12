@@ -1,0 +1,138 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+<div id="myCarousel" class="carousel slide">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="{{ asset('bundles/App/img/carousel_montagne.jpeg') }}" style="width:100%" class="img-responsive">
+      <div class="container">
+        <div class="carousel-caption">
+          <h2>"Si haute soit la montagne, on y trouve un sentier."</h2>
+          <p></p>
+          <p><a class="btn btn-md btn-primary" href="{{ path('fos_user_security_login') }}" title="Rejoindre mon espace de travail">Rejoindre mon espace de travail</a>
+        </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Controls -->
+  <!-- <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+    <span class="icon-prev"></span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+    <span class="icon-next"></span>
+  </a>  -->
+</div>
+<!-- /.carousel -->
+
+<!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Simplifiez-vous le travail collaboratif<br /><small>Soyez reconnu pour ce que vous faites !</small></h2>
+                <p>O-Study est une plateforme de travail collaboratif permettant de partager facilement au sein d'un groupe des documents et des textes. De manière publique ou privée, O-Study vous permet de travailler facilement et en toute sécurité avec vos amis, vos collègues ou vos camarades.</p>
+				<p>Parce-que nous sommes intimement convaincu que le travail doit être récompensé et reconnu, O-Study propose également aux recruteurs de déposer des offres d'emploi pour lesquels vous pourrez enfin mettre en avant votre implication au travers de vos groupes, vos recommandations et votre réputation acquise par vos publications.</p>
+                <p>
+					<a class="btn btn-md btn-primary" href="{{ path('fos_user_security_login') }}" title="Rejoindre mon espace de travail">Rejoindre mon espace de travail &raquo;</a>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h2>Contact Us</h2>
+                <address>
+                    <strong>Start Bootstrap</strong>
+                    <br>3481 Melrose Place
+                    <br>Beverly Hills, CA 90210
+                    <br>
+                </address>
+                <address>
+                    <abbr title="Phone">P:</abbr>(123) 456-7890
+                    <br>
+                    <abbr title="Email">E:</abbr> <a href="mailto:#">name@example.com</a>
+                </address>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="{{ asset('bundles/App/img/home_marketing_simple.jpg') }}" alt="" style="height:300px;">
+                <h2>Simple</h2>
+                <p>Le travail collaboratif simple et performant. Créez votre groupe, invitez vos collègues, vos camarades ou vos amis et ajoutez vos publications. Des notifications vous informes des modifications effectuées. C'est simple et intuitif.</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="{{ asset('bundles/App/img/home_marketing_securise.jpg') }}" alt="" style="height:300px;">
+                <h2>Sécurisé</h2>
+                <p>Un groupe de travail est toujours privé par défaut. Vous pouvez choisir de le rendre publique dans les préférences du groupe. La création de votre compte ne nécessite que trois informations : votre nom d'utilisateur, votre email et votre mot de passe.</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="{{ asset('bundles/App/img/home_marketing_complet.jpg') }}" alt="" style="height:300px;">
+                <h2>Complet</h2>
+                <p>Visualisation de document, échange de message, notation des publications, création d'un sommaire, d'un plan, de consignes dans chaque groupe, O-Study est simple et complet. Des outils dédiés aux entreprises et aux professeurs sont disponibles : création de tests de connaissances, gestion de groupe et des notes...</p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+{% endblock %}
+
+{% block stylesheets %}
+	<style type="text/css">
+		/* CUSTOMIZE THE NAVBAR
+		-------------------------------------------------- */
+
+		/* Special class on .container surrounding .navbar, used for positioning it into place. */
+		.navbar-wrapper {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  z-index: 10;
+		}
+		
+		/* CUSTOMIZE THE CAROUSEL
+		-------------------------------------------------- */
+
+		/* Carousel base class */
+		.carousel {
+		  margin-bottom: 60px;
+		}
+		/* Since positioning the image, we need to help out the caption */
+		.carousel-caption {
+		  z-index: 1;
+		}
+
+		/* Declare heights because of positioning of img element */
+		.carousel .item {
+		  height: 500px;
+		  background-color:#555;
+		}
+		.carousel img {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  min-height: 500px;
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-40413119-1', 'bootply.com');
+          ga('send', 'pageview');
+    </script>
+{% endblock %}

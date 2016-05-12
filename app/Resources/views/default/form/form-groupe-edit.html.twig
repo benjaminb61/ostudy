@@ -1,0 +1,91 @@
+{# Resources/views/account/groupe/form-groupe.html.twig #}
+	{{ form_start(form, {'attr': {'method' : 'post', 'action' : path('groupe-edit', { 'groupe_slug' : groupe.slug })}}) }}
+
+		{# Les erreurs générales du formulaire. #}
+		{{ form_errors(form) }}
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.name, "Nom du groupe", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.name) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.description, "Description du groupe", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.description) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.code, "Code d'adhésion", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.code) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.statut, "Visibilité du groupe", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.statut) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.authPost, "Restriction de la participation", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.authPost) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.authPost, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  {# Génération du label. #}
+		  {{ form_label(form.authInvitation, "Possibilité d'inviter des membres", {'label_attr': {'class': 'control-label'}}) }}
+
+		  {# Affichage des erreurs pour ce champ précis. #}
+		  {{ form_errors(form.authInvitation) }}
+
+		  <div>
+			{# Génération de l'input. #}
+			{{ form_widget(form.authInvitation, {'attr': {'class': 'form-control'}}) }}
+		  </div>
+		</div>
+		
+		<div class="form-group">
+			{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+		</div>
+
+
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}

@@ -1,0 +1,58 @@
+<ul class="dropdown-menu">
+	<li><a href="{{ path('homepage') }}" title="Mon oStudy"><span class="glyphicon glyphicon-th-large glyphicon-menu"></span> Mon oStudy</a></li>
+	<li><a href="{{ path('favorites') }}" title="Mes publications favorites"><span class="glyphicon glyphicon-star glyphicon-menu"></span> Mes publications favorites</a></li>
+	<li class="divider"></li>
+	<li><a href="#" data-toggle="modal" data-target="#modal-add-groupe"><span class="glyphicon glyphicon-plus glyphicon-menu"></span> Créer un groupe</a></li>
+	<li><a href="#" data-toggle="modal" data-target="#modal-join-groupe"><span class="glyphicon glyphicon-share-alt glyphicon-menu"></span> Rejoindre un groupe</a></li>
+	<li class="divider"></li>
+	{% set i = false %}
+	{% for groupe in listGroupes %}
+		{% set news = false %}
+		{% if groupe.checkNews(app.user) %}
+			{% set news = true %}
+		{% endif %}
+		<li {% if news %}style="background-color:#f9e3b7;"{% endif %}>
+			<a href="{{ path('groupe', {'groupe_slug': groupe.slug}) }}" title="{{ groupe.name }}">
+				{{ groupe.name }}
+				{% if groupe.checkAdministrator(app.user) %}
+					<sup><span class="text-muted">Admin.</span></sup>
+				{% endif %}
+				{% if news %}
+					{% set i = i + 1 %}
+					<sup><strong><span class="text-primary">Du nouveau !</span></strong></sup>
+				{% endif %}
+			</a>
+		</li>
+	{% endfor %}
+
+		<!-- <script>
+			$('#notify-groupe').text({{ i }});
+		</script> -->
+
+</ul>
+	
+	<!-- modal -->
+	<div class="modal fade" id="modal-add-groupe" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Créer un groupe</h4>
+				</div>
+				{{ render(url('groupe-add')) }}
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<!-- modal -->
+	<div class="modal fade" id="modal-join-groupe" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Rejoindre un groupe</h4>
+				</div>
+				{{ render(url('groupe-join')) }}
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

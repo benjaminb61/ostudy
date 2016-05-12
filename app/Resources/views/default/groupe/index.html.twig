@@ -1,0 +1,25 @@
+{% extends 'default/groupe/layout.html.twig' %}
+
+{% block content_account %}
+	
+{% if check_admin or groupe.authPost %}
+	{% include 'default/menu/menu-adds.html.twig' %}
+{% endif %}
+	{% include 'default/list-posts.html.twig' %}
+	
+	<ul class="pagination">
+	  {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+	  {% for p in range(1, nbPages) %}
+		<li{% if p == page %} class="active"{% endif %}>
+		  <a href="{{ path('groupe', {'groupe_slug' : groupe.slug, 'page': p, 'tag_name' : tag_name}) }}">{{ p }}</a>
+		</li>
+	  {% endfor %}
+	</ul>
+  
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

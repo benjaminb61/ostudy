@@ -1,0 +1,40 @@
+{# Resources/vews/account/menu-top.html.twig #}
+	{% set disabled = false %}
+	{% set datatarget = '#modal-add-post' %}
+	{% if not app.user %}
+		{% set disabled = 'disabled' %}
+		{% set datatarget = '#modal-login' %}
+	{% endif %}
+	{% if check_member is defined and not check_member %}
+		{% set disabled = 'disabled' %}
+		{% set datatarget = '#modal-login-groupe' %}
+	{% endif %}
+		<div style="margin-bottom:20px;" >
+			<button type="button" class="btn btn-sm btn-success {{ disabled }}" data-toggle="modal" data-target="{{ datatarget }}">
+				<span class="glyphicon glyphicon-plus"></span> Ajouter une publication
+			</button>
+			<!--<div class="btn-group" role="group">
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle {{ disabled }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  <span class="glyphicon glyphicon-check"></span> Cr&eacute;er un test de connaissances
+				  <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				  <li><a href="#"><i>In progress...</i></a></li>
+				</ul>
+			</div> -->
+		</div>
+		
+		<!-- modal -->
+	{% if not disabled %}
+		<div class="modal fade" id="modal-add-post" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Ajouter une publication</h4>
+					</div>
+					{{ render(url('post-add', {'groupe_id' : groupe_id})) }}
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	{% endif %}

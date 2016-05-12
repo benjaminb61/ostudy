@@ -1,0 +1,28 @@
+{# Resources/views/account/groupe/form-groupe-join.html.twig #}
+	{{ form_start(form, {'attr': {'method' : 'post', 'action' : path('groupe-join')}}) }}
+	{% if code_groupe %}
+		{{ form_widget(form.code, {'attr': {'class': 'form-control'}, 'value' : code_groupe, 'type' : 'hidden'}) }}
+		{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary btn-sm'},  'label': 'Rejoindre ce groupe'}) }}
+	{% else %}
+		<div class="modal-body">
+			<div class="form-group">
+			  {# Génération du label. #}
+			  {{ form_label(form.code, "Code d'adhésion", {'label_attr': {'class': 'control-label'}}) }}
+
+			  {# Affichage des erreurs pour ce champ précis. #}
+			  {{ form_errors(form.code) }}
+
+			  <div>
+				{# Génération de l'input. #}
+				{{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
+			  </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+		</div>
+	{% endif %}
+ 
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}

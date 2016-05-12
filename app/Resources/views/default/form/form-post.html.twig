@@ -1,0 +1,73 @@
+{# Resources/views/account/form-post.html.twig #}
+
+<div class="modal-body">
+	{% if post_id %}
+		{{ form_start(form, {'attr': {'method' : 'post', 'action' : path('post-edit', {'post_id' : post_id, 'groupe_id' : groupe_id}), 'enctype' : 'multipart/form-data'}}) }}
+	{% else %}
+		{{ form_start(form, {'attr': {'method' : 'post', 'action' : path('post-add', {'groupe_id' : groupe_id})}}) }}
+	{% endif %}
+
+  {# Les erreurs générales du formulaire. #}
+  {{ form_errors(form) }}
+  
+  <div class="form-group">
+	{# Génération du label. #}
+
+	{# Affichage des erreurs pour ce champ précis. #}
+	{{ form_errors(form.title) }}
+
+	<div>
+		{# Génération de l'input. #}
+		{{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'Votre titre (facultatif)'}}) }}
+	</div>
+  </div>
+  
+  <div class="form-group">
+	{# Génération du label. #}
+	{# Affichage des erreurs pour ce champ précis. #}
+	{{ form_errors(form.content) }}
+
+	<div>
+		{# Génération de l'input. #}
+		{{ form_widget(form.content, {'attr': {'placeholder': 'Votre publication'}}) }}
+	</div>
+    <script>
+		 CKEDITOR.replaceAll( 'post_content' );
+    </script>	
+  </div>
+  
+  <div class="form-group">
+	{# Génération du label. #}
+	{# Affichage des erreurs pour ce champ précis. #}
+	{{ form_errors(form.document) }}
+
+	<div>
+		{# Génération de l'input. #}
+		{{ form_widget(form.document) }}
+
+	</div>
+  </div>
+  
+  <div class="form-group">
+	{# Génération du label. #}
+	{{ form_label(form.tag, "Tags", {'label_attr': {'class': 'control-label'}}) }}
+
+	{# Affichage des erreurs pour ce champ précis. #}
+	{{ form_errors(form.tag) }}
+
+	<div>
+		{# Génération de l'input. #}
+		{{ form_widget(form.tag, {'attr': {'class': 'form-control', 'placeholder': 'Ajouter des mots clefs'}}) }}
+
+	</div>
+  </div>
+  
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+	{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+</div>
+
+  {{ form_rest(form) }}
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}

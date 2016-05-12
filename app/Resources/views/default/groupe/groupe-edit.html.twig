@@ -1,0 +1,19 @@
+{% extends 'default/groupe/layout.html.twig' %}
+
+{% block title %}
+{% endblock %}
+
+{% block breadcrumb %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('homepage') }}" title="Home">Mon oStudy</a></li>
+		<li><a href="{{ path('groupe', {'groupe_slug' : groupe.slug}) }}" title="Home">{{ groupe.name }}</a></li>
+		<li class="active">Péférences du groupe</li>
+	</ol>
+
+{% endblock %}
+
+{% block content_account %}
+
+	{% include 'default/form/form-groupe-edit.html.twig' %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: benjaminjzbdd.mysql.db
+    database_port: null
+    database_name: benjaminjzbdd
+    database_user: benjaminjzbdd
+    database_password: Poikl265979
+    mailer_transport: smtp
+    mailer_auth_mode: login
+    mailer_host: smtp.benjaminbarbin.fr
+    mailer_port: 587
+    mailer_user: postmaster@benjaminbarbin.fr
+    mailer_password: welcompoikl
+    locale: fr
+    secret: f77b062e17e59d5405cf76ba94425be5b8389ae3

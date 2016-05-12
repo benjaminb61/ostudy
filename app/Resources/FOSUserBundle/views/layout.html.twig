@@ -1,0 +1,11 @@
+{% extends 'body.html.twig' %}
+
+{% block content %}
+		{% if title is defined %}
+			<h1>{{ title }}</h1>
+		{% endif %}
+		{% block fos_user_content %}{% endblock %}
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

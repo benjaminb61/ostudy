@@ -1,0 +1,37 @@
+{% extends 'default/layout.html.twig' %}
+{% block breadcrumb %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('homepage') }}" title="{{ app_name }}">Mon {{ app_name }}</a></li>
+		<li class="active"><a href="{{ path('groupe', {'groupe_slug' : groupe.slug}) }}" title="Home">{{ groupe.name }}</a></li>
+	</ol>
+{% endblock %}
+{% block menu_account %}
+	
+	{{ render(controller("AppBundle:Groupe:menu", {'groupe' : groupe})) }} 
+	
+ 	<div class="modal fade" id="modal-login-groupe" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Oups...</h4>
+				</div>
+				<div class="modal-body">
+					Vous devez être membre du groupe pour accéder à cette fonction.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+{% endblock %}
+{% block content_account %}
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

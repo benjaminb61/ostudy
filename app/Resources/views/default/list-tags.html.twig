@@ -1,0 +1,9 @@
+{% if listTags %}	
+	{% for tag in listTags %}
+		{% if groupe_slug %}
+			<span class="">#<a href="{{ path('groupe', {'groupe_slug' : groupe_slug, 'tag_name': tag}) }}" title="{{ tag }}">{{ tag }}</a></span>&nbsp;
+		{% else %}
+			<span class=""><a href="{{ path('favorites', {'tag_name': tag}) }}" title="{{ tag }}">{{ tag }}</a></span>&nbsp;
+		{% endif %}
+	{% endfor %}
+{% endif %}

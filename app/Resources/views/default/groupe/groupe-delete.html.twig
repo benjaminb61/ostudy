@@ -1,0 +1,32 @@
+{% extends 'default/groupe/layout.html.twig' %}
+
+{% block title %}
+{% endblock %}
+
+{% block breadcrumb %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('homepage') }}" title="Home">Mon oStudy</a></li>
+		<li><a href="{{ path('groupe', {'groupe_slug' : groupe.slug}) }}" title="Home">{{ groupe.name }}</a></li>
+		<li class="active">Suppression du groupe</li>
+	</ol>
+
+{% endblock %}
+
+{% block content_account %}
+
+<h3>Supprimer un groupe</h3>
+
+	<div class="alert alert-danger" role="alert"><strong>Attention !</strong> Etes vous certain de vouloir supprimer le groupe <strong>{{groupe.name}}</strong> ? le groupe sera définitivement supprimé.</div>
+
+  <form action="{{ path('groupe-delete', {'groupe_slug': groupe.slug}) }}" method="post">
+    <a href="{{ path('groupe', {'groupe_slug' : groupe.slug}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      {{ groupe.name }}
+    </a>
+    {# Ici j'ai écrit le bouton de soumission à la main #}
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    {# Ceci va générer le champ CSRF #}
+	 {{ form_rest(form) }}
+  </form>
+
+{% endblock %}

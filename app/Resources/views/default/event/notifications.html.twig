@@ -1,0 +1,55 @@
+{% set i = false %}
+<a href="#" class="dropdown-toggle pull-right notify-dropdown" data-toggle="dropdown"><span class="glyphicon glyphicon-bell notify-glyphicon"></span>
+	<span id="notify" class="badge notify-count"></span>
+</a>
+<ul class="dropdown-menu">
+	{% if listEvents %}
+		{% for event in listEvents %}
+			
+			{% if event.getGroupes %}
+				{% set news = false %}
+				{% set groupe = event.getGroupes[0] %}
+				{% if event.date > groupe.checkLastVisit(app.user)  %}
+					{% set news = true %}
+					{% set i = i + 1 %}
+				{% endif %}
+			{% endif %}
+			
+			<li {% if news %}style="background-color:#f9e3b7;"{% endif %}>
+				{% if groupe is defined and event.comment %}
+					<a href="{{ path('groupe',{'groupe_slug' : event.getGroupes[0].slug}) }}#comment_{{ event.comment.id }}">
+				{% elseif groupe is defined and event.post %}
+					<a href="{{ path('groupe',{'groupe_slug' : event.getGroupes[0].slug}) }}#post_{{ event.post.id }}">
+				{% else %}
+					<a href="">
+				{% endif %}
+				<div class="media notification">
+				  <div class="media-left">
+					{{ event.getImageEvent|raw }}
+				  </div>
+				  <div class="media-body">
+					<!-- <h4 class="media-heading">Media heading</h4> -->
+					{% if event.getGroupes %}
+						<strong>
+						{% for groupe in event.getGroupes %}
+							{{ groupe.name }}
+						{% endfor %}
+						</strong>
+						<br />
+					{% endif %}
+					{{ event.getTextEvent(app.user)|raw }}
+					</div>
+					<div class="media-right text-right">
+						<small class="date">Le {{ event.date|date('d/m/Y') }}<br />&agrave; {{ event.date|date('H:i') }}</small>
+					</div>
+				</div>
+			</a></li>
+		{% endfor %}
+	{% endif %}
+	<li class="divider"></li>
+	<li class="text-center"><a href="" title="">Voir toutes les notifications</a></li>
+</ul>
+
+<script>
+	$('#notify').text({{ i }});
+</script>

@@ -1,0 +1,63 @@
+{% extends 'body.html.twig' %}
+
+{% block content %}
+	{% block breadcrumb %}
+		<ol class="breadcrumb">
+			<li><a href="{{ path('homepage') }}" title="{{ app_name }}">Mon {{ app_name }}</a></li>
+		</ol>
+	{% endblock %}
+  <div class="col-sm-3">
+	
+	{% block menu_account %}
+	{% endblock %}
+	{{ render(controller("AppBundle:Default:menu")) }} 
+  </div>
+  <div class="col-sm-9">
+	
+	{% for message in app.session.flashbag.get('msg_success') %}
+		<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Well done!</strong> {{ message|raw }} </div>
+	{% endfor %}
+	{% for message in app.session.flashbag.get('msg_error') %}
+		<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> {{ message|raw }} </div>
+	{% endfor %}
+	
+	{% if tag_name is defined %}
+		{% if tag_name %}
+			<div style="margin-bottom:20px;">
+				{% if groupe is defined %}
+					<p class="label label-info tag">{{ tag_name }} <a href="{{ path('groupe', {'groupe_slug' : groupe.slug}) }}" title="Supprimer le tag"><span class="glyphicon glyphicon-remove"></span></a></p>
+				{% else %}
+					<p class="label label-info tag">{{ tag_name }} <a href="{{ path('homepage') }}" title="Supprimer le tag"><span class="glyphicon glyphicon-remove"></span></a></p>
+				{% endif %}
+			</div>
+		{% endif %}	
+	{% endif %}	
+	
+	{% block content_account %}
+	{% endblock %}
+  </div>
+  
+ 	<div class="modal fade" id="modal-login" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Oups...</h4>
+				</div>
+				<div class="modal-body">
+					Vous devez vous <a href="{{ path('fos_user_security_login') }}" title="S'identifier">identifier</a> ou vous <a href="{{ path('fos_user_registration_register') }}" title="S'inscrire">inscrire</a> pour accéder à cette fonction.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+  
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'default/layout.html.twig' %}
+	
+{% block breadcrumb %}
+	<ol class="breadcrumb">
+		<li class="active"><a href="{{ path('homepage') }}" title="{{ app_name }}">Mon {{ app_name }}</a></li>
+		<li class="active"><a href="{{ path('favorites') }}">Mes publications favorites</a></li>
+	</ol>
+{% endblock %}
+	
+{% block menu_account %}
+	<div class="panel panel-default">
+		<div class="panel-heading">Tous les tags
+		</div>
+		<div class="panel-body">
+			{{ render(url('favorites-tags')) }}
+		</div>
+	</div>
+{% endblock %}
+	
+{% block content_account %}
+	{% include 'default/list-posts.html.twig' %}
+	
+	<ul class="pagination">
+	  {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+	  {% for p in range(1, nbPages) %}
+		<li{% if p == page %} class="active"{% endif %}>
+		  <a href="{{ path('favorites', {'page': p, 'tag_name' : tag_name}) }}">{{ p }}</a>
+		</li>
+	  {% endfor %}
+	</ul>
+  
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

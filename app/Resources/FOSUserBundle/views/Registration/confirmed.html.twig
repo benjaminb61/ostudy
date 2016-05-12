@@ -1,0 +1,19 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set title = 'Bienvenue !' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <p class="alert alert-success">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    {% if targetUrl %}
+    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+
+	<!-- <div class="jumbotron">
+	  <h2>Comment faire pour bien démarrer ?</h2>
+	  <p>oStudy est une plateforme de travail collaborative qui se veut simple, performante et puissante.
+		Les outils et l'interface proposés sont intuitifs, fonctionnels et compatibles avec tous vos écrans. Nous nous efforçons de fournir le meilleur de nous même au quotidien pour vous fournir des outils à la hauteur de nos exigeances.<br /><br />Pour commencez, rendez-vous dans votre oStudy ou compléter votre profil si le couer vous en dit !</p>
+	  <p><a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">Mon oStudy</a>&nbsp;<a class="btn btn-primary btn-lg" href="{{ path('fos_user_profile_show') }}">Compléter mon profil</a></p>
+	</div> -->
+{% endblock fos_user_content %}

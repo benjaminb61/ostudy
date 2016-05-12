@@ -1,0 +1,72 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Tous les tags
+	</div>
+	<div class="panel-body">
+		{{ render(url('groupe-tags', {'groupe_slug': groupe.slug})) }}
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading clearfix">
+		<h3 class="panel-title">{{ groupe.name }}</h3>
+	</div>
+	<div class="panel-body">
+		<div style="float:left; padding:0 10px 10px 0;">
+			<img src="http://www.sites.encode.com.br/src/Frontend/Files/backend_users/avatars/64x64/no-avatar.gif" alt="...">
+		</div>
+		<div>
+			<p class="">Cr&eacute;&eacute; par <strong>{{ groupe.founder.username }}</strong><br /><small>le {{ groupe.date|date('d/m/Y') }}</small></p>
+		</div>
+		<div style="clear:both;">
+			<hr />
+			{% if groupe.description %}
+				<p style="margin-bottom:10px;">{{ groupe.description }}</p>
+			{% endif %}
+			
+			{% if check_member %}
+				<p><a href="{{ path('groupe-members', {'groupe_slug' : groupe.slug}) }}" title="Voir les membres du groupe">{{ groupe.getNumberUsers }} membre(s)</a> dans le groupe </p>
+			{% else %}
+				<p><a href="#" title="Voir les membres du groupe" data-toggle="modal" data-target="#modal-login-groupe">{{ groupe.getNumberUsers }} membre(s)</a> dans le groupe </p>
+			{% endif %}
+			{% if groupe.authInvitation or check_admin %}
+				{% if check_member %}
+					<p><em>Code d'adh&eacute;sion : <strong>{{ groupe.code }}</strong></em></p>
+					<button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-add-post">
+						<span class="glyphicon glyphicon-share-alt"></span> Inviter des membres
+					</button>
+				{% else %}
+					<button type="button" class="btn btn-sm btn-default disabled" data-toggle="modal" data-target="#modal-login-groupe">
+						<span class="glyphicon glyphicon-share-alt"></span> Inviter des membres
+					</button>
+				{% endif %}
+			{% endif %}
+
+			<hr />
+			<div>
+				{% if check_member %}
+				<a href="{{ path('groupe-logout', {'groupe_slug' : groupe.slug}) }}" class="btn btn-sm btn-default" title="Quitter le groupe">
+				  Quitter ce groupe
+				</a>
+				{% else %}
+					{% if app.user %}
+						{{ render(url('groupe-join', {'code_groupe' : groupe.code} )) }}
+					{% else %}
+						<button type="button" class="btn btn-sm btn-primary disabled" data-toggle="modal" data-target="#modal-login">
+							<span class="glyphicon glyphicon-share-alt"></span> Rejoindre
+						</button>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% if check_admin %}
+	<div class="list-group">
+		<a href="#" class="list-group-item active">
+		Administration du groupe
+		</a>
+		<a href="{{ path('groupe-edit', {'groupe_slug' : groupe.slug}) }}" title="Préférences du groupe" class="list-group-item">Préférences du groupe</a>
+		<a href="{{ path('groupe-members', {'groupe_slug' : groupe.slug}) }}" title="Gestion des membres" class="list-group-item">Gestion des membres</a>
+		<a href="{{ path('groupe-delete', {'groupe_slug' : groupe.slug}) }}" title="Suppression du groupe" class="list-group-item">Suppression du groupe</a>
+		<a href="#" class="list-group-item">Statistiques</a>
+	</div>
+{% endif %}

@@ -1,0 +1,347 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Event
+ *
+ * @ORM\Table(name="event")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
+ */
+class Event
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+	
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=50)
+     */
+    private $type;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+    private $content;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="statut", type="integer")
+     */
+    private $statut;
+	
+	/**
+	* @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", cascade={"persist"})
+	* @ORM\JoinColumn(nullable=true, unique=false)
+	*/
+
+	private $post;
+	
+	/**
+	* @ORM\ManyToOne(targetEntity="AppBundle\Entity\Comment", cascade={"persist"})
+	* @ORM\JoinColumn(nullable=true, unique=false)
+	*/
+
+	private $comment;
+	
+	/**
+	* @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+	* @ORM\JoinColumn(nullable=true, unique=false)
+	*/
+
+	private $user;
+	
+	/**
+	* @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+	* @ORM\JoinColumn(nullable=true)
+	*/
+
+	private $users;
+	
+	/**
+	* @ORM\ManyToMany(targetEntity="AppBundle\Entity\Groupe", cascade={"persist"})
+	* @ORM\JoinColumn(nullable=true)
+	*/
+
+	private $groupes;
+	
+	public function __construct() {
+		$this->date = new \Datetime();
+		$this->users = new ArrayCollection();
+		$this->groupes = new ArrayCollection();
+		$this->statut = 1;
+	}
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Event
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Event
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set statut
+     *
+     * @param integer $statut
+     *
+     * @return Event
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return int
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Event
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add groupe
+     *
+     * @param \AppBundle\Entity\Groupe $groupe
+     *
+     * @return Event
+     */
+    public function addGroupe(\AppBundle\Entity\Groupe $groupe)
+    {
+        $this->groupes[] = $groupe;
+
+        return $this;
+    }
+
+    /**
+     * Remove groupe
+     *
+     * @param \AppBundle\Entity\Groupe $groupe
+     */
+    public function removeGroupe(\AppBundle\Entity\Groupe $groupe)
+    {
+        $this->groupes->removeElement($groupe);
+    }
+
+    /**
+     * Get groupes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGroupes()
+    {
+        return $this->groupes;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Event
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return Event
+     */
+    public function setPost(\AppBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \AppBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+	
+    /**
+     * Set comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Event
+     */
+    public function setComment(\AppBundle\Entity\Comment $comment = null)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return \AppBundle\Entity\Comment
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+	
+	public function getImageEvent() {
+		if (!$this -> type)
+			return null;
+		
+		switch ($this -> type) {
+			case 'post-add':
+				$glyphiconClass = "glyphicon glyphicon-edit";
+				break;
+		}
+		return "<span class=\"".$glyphiconClass."\"></span>";
+	}
+	
+	public function getTextEvent($isGroupe = false) {
+		if (!$this -> type)
+			return null;
+		
+		switch ($this -> type) {
+			case 'post-add':
+				if ($isGroupe)
+					$textEvent = '<strong>Nouvelle publication</strong> par '.$this -> post -> getAuthor() -> getUsername();
+				break;
+			case 'comment-add':
+				if ($isGroupe)
+					$textEvent = '<strong>Nouveau commentaire</strong> par '.$this -> post -> getAuthor() -> getUsername();
+				break;
+		}
+		return $textEvent;
+	}
+}
