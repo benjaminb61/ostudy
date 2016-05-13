@@ -66,15 +66,4 @@ class DefaultController extends Controller
 		));
 	
 	}
-	
-    /**
-     * @Route("/bebe/choute", name="bébéchoute")
-     */
-    public function blablaAction()
-    {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => 'je taime ma bébé choute',
-        ));
-    }
 }
